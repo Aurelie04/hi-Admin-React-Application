@@ -1,10 +1,10 @@
-
 import './App.css'
 import FooterComponent from './components/FooterComponent'
 import HeaderComponent from './components/HeaderComponent'
 import ListPersonComponent from './components/ListPersonComponent'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import PersonComponent from './components/PersonComponent'
+
 
 function App() {
   
