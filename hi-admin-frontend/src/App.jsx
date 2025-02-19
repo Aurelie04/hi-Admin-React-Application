@@ -20,6 +20,9 @@ function App() {
               <Route path='/person' element= {<ListPersonComponent />}></Route>
               {/* //http://localhost:3000/add-person */}
               <Route path='/add-person' element={ <PersonComponent />}></Route>
+              
+              {/* //http://localhost:3000/edit-person/1 */}
+              <Route path='/edit-person/:id' element ={ <PersonComponent />}></Route>
            
            </Routes>
          <FooterComponent />

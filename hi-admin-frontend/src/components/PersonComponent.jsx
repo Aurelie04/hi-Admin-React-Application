@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Form, Table, Card } from 'react-bootstrap';
 import { createPerson } from '../services/PersonService';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams } from 'react-router-dom';
 
 const PersonComponent = () => {
 
@@ -11,7 +11,8 @@ const PersonComponent = () => {
   const [phone_number, setPhoneNumber] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
-
+  
+  const {id} = useParams();
  const [errors,setErrors] = useState({
     firstName: '',
     lastName: '',
@@ -100,6 +101,14 @@ const PersonComponent = () => {
 
    }
 
+   function pageTitle(){
+    if(id){
+       return <h2 className="text-center mb-4">Update Person</h2>
+    }else{
+      return <h2 className="text-center mb-4">Add Person</h2>
+    }
+   }
+
   return (
     <Container className="mt-5 text-center"> 
     
@@ -107,7 +116,9 @@ const PersonComponent = () => {
       <Row className="justify-content-center">
         <Col md={6}> 
           <Card className="shadow" style={{ minHeight: '50px', padding: '10px', width: '1000px' }}> {/* Added width for better centering */}
-            <h2 className="text-center mb-4">Add Person</h2>
+             {
+               pageTitle()
+             }
             <Table bordered hover style={{ width: '100%' }}> 
               <tbody>
                 <tr>
@@ -121,8 +132,8 @@ const PersonComponent = () => {
                       onChange={(e) => setFirstName(e.target.value)} 
                       style={{ fontSize: '1.2rem', width: '100%' }} 
                     />
-
                     {errors.firstName && <div className='invalid-feedback'>{ errors.firstName}</div>}
+                  
                   </td>
                 </tr>
                 <tr>
@@ -137,6 +148,7 @@ const PersonComponent = () => {
                       style={{ fontSize: '1.2rem', width: '100%' }} 
                     />
                     {errors.lastName && <div className='invalid-feedback'>{ errors.lastName}</div>}
+                  
                   </td>
                 </tr>
                 <tr>
@@ -151,6 +163,7 @@ const PersonComponent = () => {
                       style={{ fontSize: '1.2rem', width: '100%' }} 
                     />
                     {errors.email && <div className='invalid-feedback'>{ errors.email}</div>}
+                  
                   </td>
                 </tr>
                 <tr>
@@ -165,6 +178,7 @@ const PersonComponent = () => {
                       style={{ fontSize: '1.2rem', width: '100%' }} 
                     />
                     {errors.phone_number && <div className='invalid-feedback'>{ errors.phone_number}</div>}
+                  
                   </td>
                 </tr>
                 <tr>
@@ -180,6 +194,7 @@ const PersonComponent = () => {
                       style={{ fontSize: '1.2rem', width: '100%' }} 
                     />
                     {errors.description && <div className='invalid-feedback'>{ errors.description}</div>}
+                 
                   </td>
                 </tr>
                 <tr>

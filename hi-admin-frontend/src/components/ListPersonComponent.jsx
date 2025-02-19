@@ -21,7 +21,12 @@ const ListPersonComponent = () => {
       navigator('/add-person')
       
     }
-  return (
+
+    function updatePerson(id){
+        navigator(`/edit-person/${id}`)
+    }
+ 
+    return (
     <div className="container">
       <h2>List of Persons</h2>
       <button className='btn btn-primary mb-2' onClick={addNewPerson}>Add persons</button>
@@ -35,6 +40,7 @@ const ListPersonComponent = () => {
             <th>Phone Number</th>
             <th>Description</th>
             <th>Amount</th>
+            <th>ActionS</th>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +54,9 @@ const ListPersonComponent = () => {
               <td>{person.description}</td>
               <td>{person.amount}</td>
               <td className="text-end">{person.amount}</td> 
+              <td>
+                   <button className='btn btn-info' onClick={() => updatePerson(person.id)}>Update</button>
+              </td>
             </tr>
           ))}
         </tbody>
