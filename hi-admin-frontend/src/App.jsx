@@ -17,7 +17,7 @@ function App() {
               {/* //http://localhost:3000 */}
               <Route path='/' element= {<ListPersonComponent />}></Route>
               {/* //http://localhost:3000/person */}
-              <Route path='person' element= {<ListPersonComponent />}></Route>
+              <Route path='/person' element= {<ListPersonComponent />}></Route>
               {/* //http://localhost:3000/add-person */}
               <Route path='/add-person' element={ <PersonComponent />}></Route>
            
