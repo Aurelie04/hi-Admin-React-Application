@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Row, Col, Form, Table, Card } from 'react-bootstrap';
-import { createPerson } from '../services/PersonService';
+import { createPerson, getPerson, updatePerson } from '../services/PersonService';
 import {useNavigate, useParams } from 'react-router-dom';
 
 const PersonComponent = () => {
@@ -23,27 +23,57 @@ const PersonComponent = () => {
   })
 
   const navigator = useNavigate();
+  
+  useEffect(() => {
 
+    if(id){
+      getPerson(id).then((response) => {
+         setFirstName(response.data.firstName);
+         setLastName(response.data.lastName);
+         setEmail(response.data.email);
+         setPhoneNumber(response.data.phone_number);
+         setDescription(response.data.description);
+         setAmount(response.data.amount);
+      }).catch(errors => {
+          console.errors(errors);
+      })
+    }
 
-  const handleSubmit = (e) => {
+  }, [id])
+
+  const saveOrUpdatePerson = (e) => {
      e.preventDefault();
      
      if(validateForm()){
+
       const person = { firstName, lastName, email, phone_number, description, amount };
-    console.log(person);
+      console.log(person);
 
-    createPerson(person)
-      .then((response) => {
-        console.log('Person created successfully:', response.data);
-        navigator('/person'); // Redirect to the persons list page
-      })
-      .catch((error) => {
-          console.error('Error creating person:', error);
-          // Handle error, e.g., display an error message to the user
-        });
+        if(id){
+           updatePerson(id,person).then((response) => {
+             console.log(response.data);
+             navigator('/person')
+           }).catch(errors => {
+                console.errors(errors);
+           })
+        }else{
+          createPerson(person)
+          .then((response) => {
+            console.log('Person created successfully:', response.data);
+            navigator('/person'); // Redirect to the persons list page
+          })
+          .catch((error) => {
+              console.error('Error creating person:', error);
+              // Handle error, e.g., display an error message to the user
+            });
+    
+         }
+    
 
-     }
+        }
+      
 
+   
     
 
   };
@@ -215,7 +245,7 @@ const PersonComponent = () => {
               </tbody>
             </Table>
             <div className="text-center mt-3"> 
-              <Button variant="primary" type="submit" onClick={handleSubmit} style={{ fontSize: '1.2rem', width: '500px' }}> {/* Added width to Submit button */}
+              <Button variant="primary" type="submit" onClick={saveOrUpdatePerson} style={{ fontSize: '1.2rem', width: '500px' }}> {/* Added width to Submit button */}
                 Submit
               </Button>
             </div>
