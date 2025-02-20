@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { listPersons } from '../services/PersonService'
+import { deletePerson, listPersons } from '../services/PersonService'
 import { useNavigate } from 'react-router-dom';
 
 const ListPersonComponent = () => {
@@ -10,13 +10,17 @@ const ListPersonComponent = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
-         listPersons().then((response) => {
-            setPersons(response.data);
-         }).catch(error => {
-              console.error(error);
-         })
-    }, [])
+        getAllPersons();
 
+    }, [])
+    
+    function getAllPersons(){
+      listPersons().then((response) => {
+        setPersons(response.data);
+     }).catch(error => {
+          console.error(error);
+     })
+    }
     function addNewPerson(){
       navigator('/add-person')
       
@@ -24,6 +28,16 @@ const ListPersonComponent = () => {
 
     function updatePerson(id){
         navigator(`/edit-person/${id}`)
+    }
+
+    function removePerson(id){
+      console.log(id);
+
+      deletePerson(id).then((response) =>{
+        getAllPersons();
+      }).catch(error => {
+         console.error(error);
+      })
     }
  
     return (
@@ -55,7 +69,9 @@ const ListPersonComponent = () => {
               <td>{person.amount}</td>
               <td className="text-end">{person.amount}</td> 
               <td>
-                   <button className='btn btn-info' onClick={() => updatePerson(person.id)}>Update</button>
+                  <button className='btn btn-info' onClick={() => updatePerson(person.id)}>Update</button>
+                  <span style={{ marginLeft: '10px' }}></span> {/* Use a <span> for spacing */}
+                  <button className='btn btn-danger' onClick={() => removePerson(person.id)}>Delete</button>
               </td>
             </tr>
           ))}
